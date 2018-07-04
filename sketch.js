@@ -3,12 +3,16 @@ let leftFlipper;
 let rightFlipper;
 class Marble {
   constructor(){
-    this.x = width - width/16;
-    this.y = height - height/8;
+    // this.x = width - width/16;
+    // this.y = height - height/8;
+    this.x = width/2 - width/50;
+    this.y = height/2;
     this.r = width/75;
     this.xVel = 0;
     this.yVel = 0;
     this.gravity = width/10000;
+    this.xAcc = 0;
+    this.yAcc = 0;
   }
   makeBall(){
     fill(255);
@@ -21,7 +25,7 @@ class Marble {
 }
 class leftPaddle {
   constructor(){
-    this.x = width/2 - width/9;
+    this.x = width/2 - width/10;
     this.y = height - height/8;
     this.w = width/10;
     this.l = width/100;
@@ -39,7 +43,7 @@ class leftPaddle {
 }
 class rightPaddle {
   constructor(){
-    this.x = width/2 + width/9;
+    this.x = width/2 + width/10;
     this.y = height - height/8;
     this.w = -width/10;
     this.l = width/100;
@@ -81,8 +85,8 @@ function draw() {
     }
   } else {
     leftFlipper.heading += 25;
-    if(leftFlipper.heading >= 0){
-      leftFlipper.heading = 0;
+    if(leftFlipper.heading >= 25){
+      leftFlipper.heading = 25;
     }
   }
   if(mouseIsPressed && mouseX > width/2){
@@ -92,8 +96,23 @@ function draw() {
     }
   } else {
     rightFlipper.heading -= 25;
-    if(rightFlipper.heading <= 0){
-      rightFlipper.heading = 0;
+    if(rightFlipper.heading <= -25){
+      rightFlipper.heading = -25;
     }
+  }
+  if(ball.x >= leftFlipper.x + 55*cos(leftFlipper.heading) /*&& ball.x <= leftFlipper.x + width/10*cos(leftFlipper.heading) + width/100*/
+  && ball.y >= leftFlipper.y + 55*sin(leftFlipper.heading)
+/*&& ball.y <= leftFlipper.y + width/10*sin(leftFlipper.heading) + width/100*/){
+    // ball.y = height - (width/10*sin(leftFlipper.heading));
+    console.log(ball.gravity);
+    console.log(ball.y);
+    console.log(ball.yVel);
+    console.log(leftFlipper.y);
+    ball.yVel = 0;
+    ball.gravity = 0;
+    // ball.xAcc = width/100*cos(leftFlipper.heading);
+    // ball.xVel += ball.xAcc;
+    // ball.yAcc = width/100*sin(leftFlipper.heading);
+    // ball.yVel += ball.yAcc;
   }
 }
